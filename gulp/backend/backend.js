@@ -14,8 +14,8 @@ var nodemon = require('gulp-nodemon'),
  */
 gulp.task('serve:backend', function() {
     return nodemon({
-        script: 'server/app.js',
-        watch: ['server/**/*.js'],
+        script: 'app.js',
+        watch: ['/**/*.js'],
         ignore: ['server/test/**/*.js']
     })
         .on('restart', function() {
@@ -33,7 +33,7 @@ gulp.task('backend', function() {
 
 /* This will run our mocha tests */
 gulp.task('test:server', function(){
-    return gulp.src('./test/*.js', {read: false})
+    return gulp.src('server/test/*.js', {read: false})
         .pipe(mocha({reporter: 'spec'}))
         .pipe(exit());
 });
