@@ -7,7 +7,7 @@
     "url": "https://github.com/kevingu2/plug"
   },
   "scripts": {
-    "start": "app.js",
+    "start": "node app.js",
     "test": "gulp test:server"
   },
   "dependencies": {
