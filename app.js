@@ -11,6 +11,11 @@ var session = require('express-session');
 
 // Connect to the MongoDB
 mongoose.connect(config.mongoDBUrl);
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function callback () {
+  console.log("Connected to mongolab");
+});
 
 
 var app = express();
