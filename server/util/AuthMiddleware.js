@@ -25,9 +25,9 @@ function ensureAuthorized(){
                                 status: Constants.status.FAIL,
                                 msg: Constants.failedMessages.NO_TOKEN
                             });
-                        console.log(token.expDate);
-                        console.log(new Date());
-                        if(token.expDate < new Date()){
+                        console.log("token expiration date: "+token.expDate);
+                        console.log("current date: "+new Date());
+                        if(token.expDate < Date.now()){
                             Token.remove({_id:token._id}, function(err){
                                 return res.json({
                                     status: Constants.status.FAIL,
