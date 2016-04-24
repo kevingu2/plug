@@ -9,6 +9,9 @@ var mongoose = require('mongoose');
 var config = require('./server/config/config');
 var session = require('express-session');
 
+
+var app = express();
+
 // Connect to the MongoDB
 mongoose.connect(config.mongoDBUrl);
 var db = mongoose.connection;
@@ -16,9 +19,6 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function callback () {
   console.log("Connected to mongolab");
 });
-
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
