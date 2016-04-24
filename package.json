@@ -7,7 +7,6 @@
     "url": "https://github.com/kevingu2/plug"
   },
   "scripts": {
-    "postinstall": "npm install",
     "start": "node app.js",
     "test": "gulp test:server"
   },
