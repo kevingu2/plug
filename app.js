@@ -1,3 +1,5 @@
+var dotenv = require('dotenv');
+dotenv.load();
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -9,16 +11,20 @@ var mongoose = require('mongoose');
 var config = require('./server/config/config');
 var session = require('express-session');
 
+var environment = process.env.NODE_ENV;
+var configDB = require('./server/config/database.json')[environment];
 
 var app = express();
 
 // Connect to the MongoDB
-mongoose.connect(config.mongoDBUrl);
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function callback () {
-  console.log("Connected to mongolab");
-});
+mongoose.connect(configDB.host, configDB.db, configDB.port,
+    configDB.credentials,
+    function(err) {
+      if (err) {
+        throw err;
+      }
+      console.log("Connected to MongoDB");
+    });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

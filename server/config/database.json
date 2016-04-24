@@ -1,0 +1,21 @@
+{
+  "production": {
+    "host": "ds053788.mlab.com",
+    "db": "heroku_21ds0m5x",
+    "port": "53788",
+    "credentials": {
+      "user": "kevingu",
+      "pass": "test"
+    }
+  },
+  "development": {
+    "host": "localhost",
+    "db": "plug",
+    "port": "27017"
+  },
+  "test": {
+    "host": "localhost",
+    "db": "plug",
+    "port": "27017"
+  }
+}
