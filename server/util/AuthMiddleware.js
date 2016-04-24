@@ -27,7 +27,7 @@ function ensureAuthorized(){
                             });
                         console.log("token expiration date: "+token.expDate);
                         console.log("current date: "+new Date());
-                        if(token.expDate < Date.now()){
+                        if(token.expDate < new Date()){
                             Token.remove({_id:token._id}, function(err){
                                 return res.json({
                                     status: Constants.status.FAIL,

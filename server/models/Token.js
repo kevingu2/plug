@@ -9,14 +9,9 @@ var mongoose = require('mongoose');
 var TokenSchema   = new mongoose.Schema({
     value: { type: String, required: true, unique: true },
     userId: { type: String, required: true },
-    expDate: {type: Date, required: true, default:defaultExpDate(Date.now())},
-    createdAt: {type: Date, required: true, default:Date.now()}
+    expDate: {type: Date, required: true},
+    createdAt: {type: Date, required: true}
 });
 
 // Export the Mongoose model
-
-function defaultExpDate(date){
-    var EXPTIME = 1000 * 60;
-    return date+EXPTIME;
-}
 module.exports = mongoose.model('Token', TokenSchema);
