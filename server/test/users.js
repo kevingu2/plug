@@ -53,7 +53,7 @@ describe("Users Test", function() {
                 .end(function(err, res){
                     if(err)
                         throw(err);
-                    res.body.should.have.property('status').and.be.equal(Constants.status.ERROR);
+                    res.body.should.have.property('status').and.be.equal(Constants.status.FAIL);
                     res.body.should.have.property('message');
                     res.body.should.not.have.property('data');
                     done();
