@@ -7,8 +7,10 @@ var bcrypt = require('bcrypt-nodejs');
 
 var UserSchema   = new Schema({
     email: {type: String, required: true, unique: true},
-    password: {type: String, required: true}
+    password: {type: String, required: true},
+    friends: {type: [{ type: Schema.Types.ObjectId, ref: 'User' }], default:[]}
 });
+
 // Execute before each user.save() call
 UserSchema.pre('save', function(callback) {
     var user = this;

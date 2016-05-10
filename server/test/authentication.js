@@ -30,7 +30,7 @@ describe("Authentication Test", function() {
     describe("Token Test", function(){
         it('should get a Token', function(done) {
             request(url)
-                .post('/api/token')
+                .post('/api/tokens')
                 .send({
                     email: email1,
                     password: password1
@@ -49,7 +49,7 @@ describe("Authentication Test", function() {
         });
         it('should not get a Token', function(done) {
             request(url)
-                .post('/api/token')
+                .post('/api/tokens')
                 .send({
                     email: email1
                 })

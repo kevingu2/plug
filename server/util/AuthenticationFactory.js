@@ -20,7 +20,7 @@ function generateToken(userId, callback) {
 
 
 function defaultExpDate(date){
-    var EXPTIME = 1000 * 60;
+    var EXPTIME = 1000 * 60000;
     return date+EXPTIME;
 }
 exports.generateToken = generateToken

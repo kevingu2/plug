@@ -8,6 +8,7 @@ var AuthMiddleWare = require('./../util/AuthMiddleware.js');
 var AuthenticationFactory = require('../util/AuthenticationFactory.js');
 var Constants = require('../util/Constants.js');
 
+
 router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
     res.json({
         status: Constants.status.SUCCESS,
@@ -15,8 +16,45 @@ router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
     });
 });
 
+/**
+ * @api {post} /user/ Create User Account
+ * @apiGroup Users
+ * @apiName User
+ *
+ * @apiParam {String} email        Mandatory email.
+ * @apiParam {String} password     Mandatory password.
+ *
+ * @apiSuccess {String} status Success
+ * @apiSuccess {String} data Token
+ *
+ * @apiSampleRequest http://plug-mobile.herokuapp.com/api/users
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "Success",
+ *       "data": {
+ *          "_id" :
+ *          "value" : "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiI1NzFiMWY3YjYyZGU4ODIwNTcwMTg3ODYiLCJfaWQiOiI1NzFjODUyNmEwN2FkNTI0ODNiNjE4ZjUiLCJjcmVhdGVkQXQiOiIyMDE2LTA0LTI0VDA4OjM0OjMzLjQwMVoiLCJleHBEYXRlIjoiMjAxNi0wNC0yNFQwODozNTozMy40MDFaIn0.4AaTa9OvANdwYa-kz_ZuqyXY_B2T10fbIC5I3cNQ5f4" ,
+ *          "userId" : "571b1f7b62de882057018786" ,
+ *          "createdAt" : { "$date" : "2016-04-24T08:34:33.401Z"} ,
+ *          "expDate" : { "$date" : "2016-04-24T08:35:33.401Z"} ,
+ *          "__v" : 0
+ *       }
+ *     }
+ *
+ * @apiError UsernameTaken The username has already been taken
+ *
+ * @apiErrorExample Error-Response:
+ *     HTTP/1.1 200 Not Found
+ *     {
+ *       "status": "Fail",
+ *       "message": "User already exists";
+ *     }
+ *
+ */
 router.post('/', function(req, res) {
-    User.findOne({email: req.body.email, password: req.body.password}, function(err, user) {
+    User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
             return res.json({
                 status: Constants.status.ERROR,
@@ -52,6 +90,27 @@ router.post('/', function(req, res) {
                     });
                 });
             }
+        }
+    });
+});
+
+router.post('/friends', AuthMiddleWare.isAuthorized, function(req, res) {
+    var friendIds = req.body.friends;
+    var user = req.user;
+    for(var i in friendIds){
+        user.friends.push(friendIds[i]);
+    }
+    user.save(function(err){
+        if (err) {
+            return res.json({
+                status: Constants.status.ERROR,
+                message: err.message
+            });
+        }else{
+            return res.json({
+                status: Constants.status.SUCCESS,
+                message: Constants.successMessages.OK
+            });
         }
     });
 });

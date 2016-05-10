@@ -38,11 +38,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(cors());
 
 /* routes API*/
-app.use('/api/token', require('./server/controllers/authentication.js'));
+app.use('/api/tokens', require('./server/controllers/authentication.js'));
 app.use('/api/users', require('./server/controllers/users.js'));
+app.use('/api/snapchat', require('./server/controllers/snapchat.js'));
+app.use('/api/instagram', require('./server/controllers/instagram.js'));
+app.use('/api/requests', require('./server/controllers/normRequests.js'));
+app.use('/api/socialMediaRequests', require('./server/controllers/socialMediaRequest.js'));
+app.use('/api/accessTokenRequests', require('./server/controllers/accessTokenRequest.js'));
 app.use('/', require('./routes/index'));
 
 // catch 404 and forward to error handler

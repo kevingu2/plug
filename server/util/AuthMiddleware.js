@@ -19,25 +19,26 @@ function ensureAuthorized(){
                 if(err) return res.json({error:err.message});
                 try {
                     jwt.verify(bearerToken, config.secret, function(err, _){
-                        if(err) return res.json({type: false, msg: err.message});
+                        if(err)
+                            return res.json({
+                                status: Constants.status.ERROR,
+                                msg: err.message
+                            });
                         if(!token)
                             return res.json({
                                 status: Constants.status.FAIL,
                                 msg: Constants.failedMessages.NO_TOKEN
                             });
-                        console.log("token expiration date: "+token.expDate);
-                        console.log("current date: "+new Date());
-                        if(token.expDate < new Date()){
+                        /*if(token.expDate < new Date()){
                             Token.remove({_id:token._id}, function(err){
                                 return res.json({
                                     status: Constants.status.FAIL,
                                     error: Constants.failedMessages.TOKEN_EXPIRED
                                 });
                             });
-                        }else {
-                            User.findOne({_id:token.userId}, { password: 0}, function(err, user) {
-                                console.log(user);
-                                if (err) {
+                        }else {*/
+                            User.findOne({_id:token.userId}, { password: 0}).populate('friends').exec(function(err, user) {
+                                if (err || !user) {
                                     return res.json({
                                         status: Constants.status.ERROR,
                                         error: err
@@ -47,7 +48,7 @@ function ensureAuthorized(){
                                     next();
                                 }
                             });
-                        }
+                        //}
                     });
                 }catch(err){
                     return res.json({
