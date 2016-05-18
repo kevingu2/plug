@@ -16,7 +16,11 @@ function ensureAuthorized(){
             bearerToken = bearer[1];
             if(typeof bearerToken ==='undefined') res.sendStatus(403);
             Token.findOne({value:bearerToken}, function(err, token){
-                if(err) return res.json({error:err.message});
+                if(err)
+                    return res.json({
+                        status: Constants.status.ERROR,
+                        msg:err.message
+                    });
                 try {
                     jwt.verify(bearerToken, config.secret, function(err, _){
                         if(err)

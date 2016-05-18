@@ -8,7 +8,40 @@ var AuthMiddleWare = require('./../util/AuthMiddleware.js');
 var AuthenticationFactory = require('../util/AuthenticationFactory.js');
 var Constants = require('../util/Constants.js');
 
-
+/**
+ * @api {get} /users/ Get User Account
+ * @apiGroup Users
+ * @apiName Get User
+ *
+ * @apiHeader {String} Authorization "Bearer "+token.
+ * @apiHeaderExample {json} Header:
+ *     {
+ *       "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkQXQiOiIyMDE2LTA1LTA3VDIyOjM5OjQ1LjkwNloiLCJleHBEYXRlIjoiMjAxNi0wNS0wOFQxNToxOTo0NS44NTBaIiwidXNlcklkIjoiNTcxYjFmN2I2MmRlODgyMDU3MDE4Nzg2IiwiX2lkIjoiNTcyZTZlYjE0NzZlMjQ3YzdmZGUzOGI4In0.5mun3hgm73UuYYXhKZ8f3YKwDPc1gR3I09Q_8DNV"
+ *     }
+ *
+ * @apiSampleRequest http://plug-mobile.herokuapp.com/api/users
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *          "status": "Success",
+ *          "data":{
+ *              "_id": "571b1f7b62de882057018786" ,
+ *              "email" : "test@yahoo.com" ,
+ *              "__v" : 0
+ *          }
+ *     }
+ *
+ * @apiError UsernameTaken The username has already been taken
+ *
+ * @apiErrorExample Fail-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "Fail",
+ *       "message": "Incorrect email/password";
+ *     }
+ *
+ */
 router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
     res.json({
         status: Constants.status.SUCCESS,
@@ -17,9 +50,9 @@ router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
 });
 
 /**
- * @api {post} /user/ Create User Account
+ * @api {post} /users/ Create User Account
  * @apiGroup Users
- * @apiName User
+ * @apiName Create User
  *
  * @apiParam {String} email        Mandatory email.
  * @apiParam {String} password     Mandatory password.
@@ -45,8 +78,8 @@ router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
  *
  * @apiError UsernameTaken The username has already been taken
  *
- * @apiErrorExample Error-Response:
- *     HTTP/1.1 200 Not Found
+ * @apiErrorExample Fail-Response:
+ *     HTTP/1.1 200 OK
  *     {
  *       "status": "Fail",
  *       "message": "User already exists";
@@ -94,9 +127,58 @@ router.post('/', function(req, res) {
     });
 });
 
+
+/**
+ * @api {post} /users/friends AddFriends
+ * @apiGroup Users
+ * @apiName Add Friends
+ *
+ * @apiHeader {String} Authorization "Bearer "+token.
+ *
+ * @apiParam {String[]} friends Array of friend_ids to add
+ *
+ * @apiHeaderExample {json} Header:
+ *     {
+ *       "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjcmVhdGVkQXQiOiIyMDE2LTA1LTA3VDIyOjM5OjQ1LjkwNloiLCJleHBEYXRlIjoiMjAxNi0wNS0wOFQxNToxOTo0NS44NTBaIiwidXNlcklkIjoiNTcxYjFmN2I2MmRlODgyMDU3MDE4Nzg2IiwiX2lkIjoiNTcyZTZlYjE0NzZlMjQ3YzdmZGUzOGI4In0.5mun3hgm73UuYYXhKZ8f3YKwDPc1gR3I09Q_8DNV"
+ *     }
+ *
+ * @apiSampleRequest localhost:3000/api/users/friends
+ *
+ * @apiSuccessExample Success-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *          "status": "Success",
+ *          "data": "OK"
+ *     }
+ *
+ * @apiError UsernameTaken The username has already been taken
+ *
+ * @apiErrorExample Fail-Response:
+ *     HTTP/1.1 200 OK
+ *     {
+ *       "status": "Fail",
+ *       "message": "Missing Fields";
+ *     }
+ *
+ */
 router.post('/friends', AuthMiddleWare.isAuthorized, function(req, res) {
-    var friendIds = req.body.friends;
+    try {
+        var friendIds = JSON.parse(req.body.friends);
+    }catch(e){
+        return res.json({
+            status: Constants.status.FAIL,
+            message: Constants.failedMessages.INCORRECT_TYPE
+        });
+    }
     var user = req.user;
+    if(!friendIds){
+        return res.json({
+            status: Constants.status.FAIL,
+            message: Constants.failedMessages.MISSING_FIELDS
+        });
+    }
+
+    //TODO: need check if already added those ids
     for(var i in friendIds){
         user.friends.push(friendIds[i]);
     }
@@ -109,7 +191,7 @@ router.post('/friends', AuthMiddleWare.isAuthorized, function(req, res) {
         }else{
             return res.json({
                 status: Constants.status.SUCCESS,
-                message: Constants.successMessages.OK
+                data: Constants.successMessages.OK
             });
         }
     });

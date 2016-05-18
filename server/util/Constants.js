@@ -18,6 +18,7 @@ failedMessages.NO_TOKEN = "No Token";
 failedMessages.MISSING_FIELDS = "Missing Fields";
 failedMessages.WRONG_ACCESS_TOKEN = "The provided access_token is invalid";
 failedMessages.CAN_NOT_FIND_ID = "The provided id is invalid";
+failedMessages.INCORRECT_TYPE = "Incorrect type for field";
 
 exports.status = status;
 exports.failedMessages = failedMessages;

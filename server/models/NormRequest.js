@@ -13,7 +13,7 @@ var NormRequestSchema   = new mongoose.Schema({
     _user:{ type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     date:{type:Date, required:true},
     latitude:{type:Number,required:true},
-    longitude:{type:Number, required:true}
+    longitude:{type:Number, required:true},
 });
 
 // Export the Mongoose model

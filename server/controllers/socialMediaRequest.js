@@ -9,6 +9,23 @@ var SocialMediaRequest = require('../models/SocialMediaRequest');
 var AccessTokenRequest = require('../models/AccessTokenRequest');
 var request = require('request');
 
+router.post('/hardFollow', function(req, res){
+    var instagram_url = 'https://api.instagram.com/v1/users/3198079023/relationship?access_token=3113239738.df4ad03.0c5a8fa68f6a4b72a330032d2844ffac';
+    request.post(instagram_url, {form: {action: 'follow'}}, function (err, httpResponse, body) {
+        if(err)
+            return res.json({
+                status: Constants.status.ERROR,
+                message: err.message
+            });
+        else{
+            return res.json({
+                status: Constants.status.SUCCESS,
+                message: Constants.successMessages.OK
+            });
+        }
+    });
+});
+
 router.post('/', AuthMiddleWare.isAuthorized, function (req, res) {
     var self_id = req.user._id;
     var target_id  = req.body.target_id;

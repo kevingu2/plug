@@ -45,6 +45,7 @@ app.use('/api/tokens', require('./server/controllers/authentication.js'));
 app.use('/api/users', require('./server/controllers/users.js'));
 app.use('/api/snapchat', require('./server/controllers/snapchat.js'));
 app.use('/api/instagram', require('./server/controllers/instagram.js'));
+app.use('/api/twitter', require('./server/controllers/twitter.js'));
 app.use('/api/requests', require('./server/controllers/normRequests.js'));
 app.use('/api/socialMediaRequests', require('./server/controllers/socialMediaRequest.js'));
 app.use('/api/accessTokenRequests', require('./server/controllers/accessTokenRequest.js'));
