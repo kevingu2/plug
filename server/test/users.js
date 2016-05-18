@@ -80,10 +80,6 @@ describe("Users Test", function() {
         });
     });
 
-    //TODO
-    describe("Add Friends ", function(){
-        done();
-    });
 
     after(function(done) {
         User.remove({_id: user._id}, function(err, _){
