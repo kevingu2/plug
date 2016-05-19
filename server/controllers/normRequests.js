@@ -80,7 +80,7 @@ router.get('/', AuthMiddleWare.isAuthorized, function (req, res){
                     var dist = Math.sqrt(Math.pow(r.latitude - userRequest.latitude, 2)+Math.pow(r.longitude - userRequest.longitude, 2));
                     console.log("Dist: "+dist);
                     console.log("request_id: "+request_id);
-                    if(r._id != request_id && dist <= MAX_DISTANCE){
+                    if(r._user._id != userRequest._user && dist <= MAX_DISTANCE){
                         console.log(r._id);
                         nearUsers.push(r._user);
                     }

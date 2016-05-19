@@ -14,6 +14,8 @@ describe("Users Test", function() {
 
     var email1 = "test1@gmail.com";
     var password1 = "test1";
+    var first_name1 = "test1";
+    var last_name1 = "test1";
     var token1 = null; //will be set after user is created
     var user = null;
 
@@ -30,7 +32,9 @@ describe("Users Test", function() {
                 .post('/api/users')
                 .send({
                     email:email1,
-                    password: password1
+                    password: password1,
+                    first_name: first_name1,
+                    last_name: last_name1
                 })
                 .end(function(err, res){
                     if(err)

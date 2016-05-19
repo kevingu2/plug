@@ -87,6 +87,14 @@ router.get('/', AuthMiddleWare.isAuthorized, function(req, res) {
  *
  */
 router.post('/', function(req, res) {
+    var last_name = req.body.last_name;
+    var first_name = req.body.first_name;
+    if(!last_name || !first_name){
+        return res.json({
+            status: Constants.status.FAIL,
+            message: Constants.failedMessages.MISSING_FIELDS
+        });
+    }
     User.findOne({email: req.body.email}, function(err, user) {
         if (err) {
             return res.json({
@@ -103,6 +111,8 @@ router.post('/', function(req, res) {
                 var userModel = new User();
                 userModel.email = req.body.email;
                 userModel.password = req.body.password;
+                userModel.last_name = last_name;
+                userModel.first_name = first_name;
                 userModel.save(function(err, user) {
                     if(err)
                         return res.json({

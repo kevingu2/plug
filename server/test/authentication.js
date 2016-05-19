@@ -14,6 +14,8 @@ describe("Authentication Test", function() {
 
     var email1 = "test1@gmail.com";
     var password1 = "test1";
+    var first_name1 = "test1";
+    var last_name1 = "test1";
     var user = null;
 
     var tokenId1 = null;
@@ -22,6 +24,8 @@ describe("Authentication Test", function() {
         user = new User();
         user.email = email1;
         user.password = password1;
+        user.first_name = first_name1;
+        user.last_name = last_name1;
         user.save(function(err){
             if(err) throw err;
             done();
@@ -33,7 +37,7 @@ describe("Authentication Test", function() {
                 .post('/api/tokens')
                 .send({
                     email: email1,
-                    password: password1
+                    password: password1,
                 })
                 .end(function (err, res) {
                     console.log(res.body);
