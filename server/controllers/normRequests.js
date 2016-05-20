@@ -66,7 +66,8 @@ router.get('/', AuthMiddleWare.isAuthorized, function (req, res){
                 message: Constants.failedMessages.CAN_NOT_FIND_ID
             });
         }
-        NormRequest.find({date:{ $lte:userRequest.date+TIME_OUT}}).populate('_user', '-password -friends').exec(function(err, requests){
+        var timeout = userRequest.date+TIME_OUT;
+        NormRequest.find({date:{ $lte:timeout}}).populate('_user', '-password -friends').exec(function(err, requests){
             if (err) {
                 return res.json({
                     status: Constants.status.ERROR,
