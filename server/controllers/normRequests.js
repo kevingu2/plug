@@ -67,7 +67,7 @@ router.get('/', AuthMiddleWare.isAuthorized, function (req, res){
             });
         }
         var timeout = userRequest.date+TIME_OUT;
-        NormRequest.find({date:{ $lte:timeout}}).populate('_user', '-password -friends').exec(function(err, requests){
+        NormRequest.find({}).populate('_user', '-password -friends').exec(function(err, requests){
             if (err) {
                 return res.json({
                     status: Constants.status.ERROR,
